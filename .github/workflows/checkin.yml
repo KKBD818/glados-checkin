@@ -1,0 +1,19 @@
+name: GLaDOS自动签到
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    # 每天国际标准时间 18:00（北京时间凌晨 02:00）自动运行
+    - cron: '0 18 * * *'
+
+jobs:
+  checkin:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 模拟发送签到请求
+      run: |
+        curl -X POST "https://glados.rocks/api/user/checkin" \
+        -H "cookie: ${{ secrets.GLADOS_COOKIE }}" \
+        -H "content-type: application/json" \
+        -d '{"token": "glados.one"}'
